@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="com.andrew.BLE"
+    version="0.0.1">
+    
+  <name>Basic Bluetooth BLE</name>
+  <description>Basic Bluetooth BLE</description>
+  <license>Apache 2.0</license>
+  <keywords>cordova,Bluetooth, BLE</keywords>
+  <repo></repo>
+  <issue></issue>
+  
+  <js-module src="www/andrewBLE.js" name="andrewBLE">
+    <clobbers target="window.BLE" />
+  </js-module>
+
+  <!-- android -->
+  <platform name="android">
+  
+    
+    <config-file target="AndroidManifest.xml" parent="/*">
+      <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
+      <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
+    </config-file>
+    
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="andrewBLE" >
+        <param name="android-package" value="andrewBLE"/>
+        <param name="onload" value="true" />
+      </feature>
+    </config-file>
+    
+    <source-file src="src/android/andrewBLE.java" target-dir="src/" />
+    
+    <!--<framework src="com.android.support:support-v4:+" />-->
+    
+  </platform>
+
+</plugin>

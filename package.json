@@ -1,0 +1,18 @@
+{
+    "version": "0.1",
+    "name": "com.andrew.BLE",
+    "cordova_name": "andrewBLE",
+    "description": "Basic Bluetooth BLE",
+    "license": "Apache 2.0",
+    "repo": "",
+    "issue": "",
+    "keywords": [
+        "cordova",
+        "BLE"
+    ],
+    "platforms": [
+        "android",
+    ],
+    "engines": [],
+    "englishdoc": ""
+}
