@@ -14,9 +14,11 @@ import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 
+import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
+import org.apache.cordova.CordovaInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +29,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class andrewBLE extends CordovaPlugin {
+public class andrewBLE extends CordovaPlugin implements BluetoothAdapter.LeScanCallback{
   private BluetoothAdapter mBluetoothAdapter;
   private BluetoothGatt mBluetoothGatt;
 
@@ -57,9 +59,11 @@ public class andrewBLE extends CordovaPlugin {
               (BluetoothManager) cordova.getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
       mBluetoothAdapter = bluetoothManager.getAdapter();
   }
-/*public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-  super.initialize(cordova, webView);
-}*/
+  
+  
+  /*public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+    super.initialize(cordova, webView);
+  }*/
 
 
   @Override
@@ -140,7 +144,7 @@ public class andrewBLE extends CordovaPlugin {
       connectCallback = null;
     }
   }
-
+  
   private void scanLeDevice(final boolean enable) {
       if (enable && !mScanning) {
           Log.d(TAG, "Escaneando...");
@@ -152,23 +156,23 @@ public class andrewBLE extends CordovaPlugin {
                   Log.w(TAG,"Tiempo de Escaneo agotado");
 
                   mScanning = false;
-                  mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                  mBluetoothAdapter.stopLeScan(this);
               }
           }, scanPeriod);
 
           mScanning = true;
-          mBluetoothAdapter.startLeScan(mLeScanCallback);
-          //mBluetoothAdapter.startLeScan(uuids, mLeScanCallback);
+          mBluetoothAdapter.startLeScan(this);
+          //mBluetoothAdapter.startLeScan(uuids, this);
       }
       else {
           mScanning = false;
-          mBluetoothAdapter.stopLeScan(mLeScanCallback);
+          mBluetoothAdapter.stopLeScan(this);
       }
   }
 
   // Device scan callback.
-  private BluetoothAdapter.LeScanCallback
-          mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
+  //private BluetoothAdapter.LeScanCallback
+    //      this = new BluetoothAdapter.LeScanCallback() {
       @Override
       public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
           final int new_rssi = rssi;
@@ -185,7 +189,7 @@ public class andrewBLE extends CordovaPlugin {
               }
           }
       }
-  };
+  //};
 
   private boolean connect(final String address) {
       if (mBluetoothAdapter == null || address == null) {
